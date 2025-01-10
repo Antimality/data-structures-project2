@@ -109,7 +109,6 @@ public class FibonacciHeap {
 		else  {
 			cascadeCut(x);
 		}
-		return; 
 	}
 	/**
 	 * 
@@ -121,13 +120,13 @@ public class FibonacciHeap {
 			//Terminate cascade when we reach root
 			return;
 		HeapNode parent = x.parent;
-		if (x.parent.child == x) {
+		if (parent.child == x) {
 			if (x.next == x) {
 				// Only child
-				x.parent.child = null;
+				parent.child = null;
 			} else {
 				// Connect parent to sibling
-				x.parent.child = x.next;
+				parent.child = x.next;
 			}
 		}
 		numCuts++;
@@ -136,9 +135,9 @@ public class FibonacciHeap {
 		// Detach node from its siblings
 		removeFromLinkedList(x);
 		addToRootList(x);
-		x.mark = false; 
 		// The mark of a new tree root is always false
-		if (x.parent.mark == false&&x.parent.parent != null) {
+		x.mark = false; 
+		if (x.parent.mark == false && x.parent.parent != null) {
 			// We mark only non roots
 			x.parent.mark = true;
 			return;
