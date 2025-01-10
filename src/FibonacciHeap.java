@@ -120,7 +120,7 @@ public class FibonacciHeap {
 	private HeapNode merge(HeapNode x, HeapNode y) {
 		HeapNode parent = x.key <= y.key ? x : y;
 		HeapNode child = x.key <= y.key ? y : x;
-numLinks++;
+
 		// Remove child from the root list
 		removeFromLinkedList(child);
 		// Attatch child to parent
@@ -128,10 +128,12 @@ numLinks++;
 			parent.child = child;
 			child.next = child;
 			child.prev = child;
+			parent.rank++;
 		} else {
 			addToLinkedList(parent.child, child);
 		}
-parent.rank++;
+
+		numLinks++;
 		return parent;
 	}
 
@@ -144,22 +146,22 @@ parent.rank++;
 	 */
 	public void decreaseKey(HeapNode x, int diff) {
 		x.key = x.key - diff;
-		if (x.parent == null|| x.parent.key<= x.key) { 
-			// The decrease is legal with the heap logic 
+		if (x.parent == null || x.parent.key <= x.key) {
+			// The decrease is legal with the heap logic
 			return;
-		}
-		else  {
+		} else {
 			cascadeCut(x);
 		}
 	}
+
 	/**
 	 * 
 	 * Handle the cutting process.
 	 *
 	 */
 	private void cascadeCut(HeapNode x) {
-		if (x.parent == null) 
-			//Terminate cascade when we reach root
+		if (x.parent == null)
+			// Terminate cascade when we reach root
 			return;
 		HeapNode parent = x.parent;
 		if (parent.child == x) {
@@ -178,16 +180,16 @@ parent.rank++;
 		removeFromLinkedList(x);
 		addToRootList(x);
 		// The mark of a new tree root is always false
-		x.mark = false; 
+		x.mark = false;
 		if (x.parent.mark == false && x.parent.parent != null) {
 			// We mark only non roots
 			x.parent.mark = true;
 			return;
-		}
-		else {
+		} else {
 			cascadeCut(parent);
 		}
 	}
+
 	/**
 	 * 
 	 * Delete the x from the heap.
@@ -217,7 +219,7 @@ parent.rank++;
 				addToRootList(current);
 				current = current.next;
 			} while (current != x.child);
-		}	
+		}
 	}
 
 	/**
