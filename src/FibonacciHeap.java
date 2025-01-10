@@ -120,7 +120,7 @@ public class FibonacciHeap {
 	private HeapNode merge(HeapNode x, HeapNode y) {
 		HeapNode parent = x.key <= y.key ? x : y;
 		HeapNode child = x.key <= y.key ? y : x;
-
+numLinks++;
 		// Remove child from the root list
 		removeFromLinkedList(child);
 		// Attatch child to parent
@@ -131,7 +131,7 @@ public class FibonacciHeap {
 		} else {
 			addToLinkedList(parent.child, child);
 		}
-
+parent.rank++;
 		return parent;
 	}
 
