@@ -40,6 +40,7 @@ public class FibonacciHeap {
 			// The heap is empty - create a new heap with a single node.
 			min = node;
 			first = node;
+			t_num = 1;
 		} else {
 			// Add the new node to the root list.
 			addToRootList(node);
@@ -49,7 +50,6 @@ public class FibonacciHeap {
 			}
 		}
 		h_size++;
-		t_num++;
 
 		return node;
 	}
@@ -73,7 +73,7 @@ public class FibonacciHeap {
 			return;
 		}
 		min = min.next;
-		detatch_node(min);
+		detatchNode(min);
 
 		if (min == min.next) {
 			// The heap is empty
@@ -102,6 +102,7 @@ public class FibonacciHeap {
 	 */
 	public void decreaseKey(HeapNode x, int diff) {
 		// TODO: By Itay.
+		// Please look at the comment in detatchNode
 		return; // should be replaced by student code
 	}
 
@@ -114,7 +115,7 @@ public class FibonacciHeap {
 		if (x == min) {
 			deleteMin();
 		} else {
-			detatch_node(x);
+			detatchNode(x);
 		}
 	}
 
@@ -123,7 +124,7 @@ public class FibonacciHeap {
 	 * Detaches a node from its parent and siblings. Returns the child of the node.
 	 * 
 	 */
-	private void detatch_node(HeapNode x) {
+	private void detatchNode(HeapNode x) {
 		// TODO: There might be a mark missing here.
 
 		// Detach x from its parent
@@ -180,7 +181,26 @@ public class FibonacciHeap {
 	 *
 	 */
 	public void meld(FibonacciHeap heap2) {
-		return; // should be replaced by student code
+		if (heap2.first == null) {
+			// Do nothing
+		} else if (first == null) {
+			first = heap2.first;
+			min = heap2.min;
+		} else {
+			// Concatinate root lists
+			first.prev.next = heap2.first;
+			heap2.first.prev.next = first;
+			// Update min pointer
+			if (heap2.min.key < min.key) {
+				min = heap2.min;
+			}
+		}
+
+		// Update counters
+		h_size += heap2.h_size;
+		t_num += heap2.t_num;
+		numLinks += heap2.numLinks;
+		numCuts += heap2.numCuts;
 	}
 
 	/**
@@ -221,6 +241,7 @@ public class FibonacciHeap {
 	 */
 	private void addToRootList(HeapNode node) {
 		addToLinkedList(node, first);
+		t_num++;
 	}
 
 	/**
