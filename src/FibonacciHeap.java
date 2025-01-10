@@ -88,9 +88,53 @@ public class FibonacciHeap {
 
 	}
 
+	/**
+	 * 
+	 * Consolidates the root list so at most one tree has each rank.
+	 * 
+	 */
 	private void consolidate() {
-		// TODO: By Yonatan.
-		return;
+		HeapNode[] buckets = new HeapNode[t_num];
+		HeapNode current = first;
+		do {
+			int rank = current.rank;
+			HeapNode merged = current;
+			// Recursively merge trees until there are no more bucket conflicts
+			while (buckets[rank] != null) {
+				// Merge with bucket
+				merged = merge(merged, buckets[rank]);
+				// Empty previous bucket
+				buckets[rank++] = null;
+			}
+			buckets[rank] = merged;
+
+			current = current.next;
+		} while (current != first);
+	}
+
+	/**
+	 * 
+	 * Merges two trees of the same rank. Returns the merged tree.
+	 * 
+	 */
+	private HeapNode merge(HeapNode x, HeapNode y) {
+		HeapNode parent = x.key <= y.key ? x : y;
+		HeapNode child = x.key <= y.key ? y : x;
+
+		// Remove child from the root list
+		removeFromLinkedList(child);
+		// Attatch child to parent
+		if (parent.child == null) {
+			parent.child = child;
+			child.next = child;
+			child.prev = child;
+			parent.rank++;
+		} else {
+			addToLinkedList(parent.child, child);
+		}
+
+		numLinks++;
+		return parent;
 	}
 
 	/**
@@ -102,22 +146,22 @@ public class FibonacciHeap {
 	 */
 	public void decreaseKey(HeapNode x, int diff) {
 		x.key = x.key - diff;
-		if (x.parent == null|| x.parent.key<= x.key) { 
-			// The decrease is legal with the heap logic 
+		if (x.parent == null || x.parent.key <= x.key) {
+			// The decrease is legal with the heap logic
 			return;
-		}
-		else  {
+		} else {
 			cascadeCut(x);
 		}
 	}
+
 	/**
 	 * 
 	 * Handle the cutting process.
 	 *
 	 */
 	private void cascadeCut(HeapNode x) {
-		if (x.parent == null) 
-			//Terminate cascade when we reach root
+		if (x.parent == null)
+			// Terminate cascade when we reach root
 			return;
 		HeapNode parent = x.parent;
 		if (parent.child == x) {
@@ -136,16 +180,16 @@ public class FibonacciHeap {
 		removeFromLinkedList(x);
 		addToRootList(x);
 		// The mark of a new tree root is always false
-		x.mark = false; 
+		x.mark = false;
 		if (x.parent.mark == false && x.parent.parent != null) {
 			// We mark only non roots
 			x.parent.mark = true;
 			return;
-		}
-		else {
+		} else {
 			cascadeCut(parent);
 		}
 	}
+
 	/**
 	 * 
 	 * Delete the x from the heap.
@@ -175,7 +219,7 @@ public class FibonacciHeap {
 				addToRootList(current);
 				current = current.next;
 			} while (current != x.child);
-		}	
+		}
 	}
 
 	/**
