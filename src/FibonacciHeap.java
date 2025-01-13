@@ -455,19 +455,19 @@ public class FibonacciHeap {
 		// heap.printHeap();
 
 		// TODO: Test sorting
-		heap.insert(1, "One");
+		heap.insert(9, "Nine");
 		heap.insert(2, "Two");
 		heap.insert(3, "Three");
-		heap.insert(4, "Four");
+		heap.insert(1, "One");
+		heap.insert(7, "Seven");
 		heap.insert(5, "Five");
 		heap.insert(6, "Six");
-		heap.insert(7, "Seven");
 		heap.insert(8, "Eight");
-		heap.insert(9, "Nine");
 		heap.insert(10, "Ten");
+		heap.insert(4, "Four");
 
 		for (int i = 1; i <= 10; i++) {
-			heap.printHeap();
+			// heap.printHeap();
 			int min = heap.findMin().key;
 			assert min == i : "Wrong minimum";
 			System.err.println("Min: " + min);
