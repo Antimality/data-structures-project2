@@ -13,20 +13,6 @@ public class FibonacciHeap {
 	private int numCuts;
 
 	/**
-	 *
-	 * Constructor to initialize an empty heap.
-	 *
-	 */
-	public FibonacciHeap() {
-		min = null;
-		first = null;
-		h_size = 0;
-		t_num = 0;
-		numLinks = 0;
-		numCuts = 0;
-	}
-
-	/**
 	 * 
 	 * pre: key > 0
 	 *
