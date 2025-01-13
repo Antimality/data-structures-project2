@@ -428,7 +428,7 @@ public class FibonacciHeap {
 
 	// TODO: REMOVE BEFORE SUBMISSION
 	public static void main(String[] args) {
-		FibonacciHeap heap = new FibonacciHeap();
+		// FibonacciHeap heap = new FibonacciHeap();
 		// heap.insert(2, "two");
 		// heap.insert(3, "three");
 		// HeapNode x4 = heap.insert(4, "four");
@@ -454,24 +454,23 @@ public class FibonacciHeap {
 		// heap.deleteMin();
 		// heap.printHeap();
 
-		// TODO: Test sorting
-		heap.insert(9, "Nine");
-		heap.insert(2, "Two");
-		heap.insert(3, "Three");
-		heap.insert(1, "One");
-		heap.insert(7, "Seven");
-		heap.insert(5, "Five");
-		heap.insert(6, "Six");
-		heap.insert(8, "Eight");
-		heap.insert(10, "Ten");
-		heap.insert(4, "Four");
+		// heap.insert(9, "Nine");
+		// heap.insert(2, "Two");
+		// heap.insert(3, "Three");
+		// heap.insert(1, "One");
+		// heap.insert(7, "Seven");
+		// heap.insert(5, "Five");
+		// heap.insert(6, "Six");
+		// heap.insert(8, "Eight");
+		// heap.insert(10, "Ten");
+		// heap.insert(4, "Four");
 
-		for (int i = 1; i <= 10; i++) {
-			// heap.printHeap();
-			int min = heap.findMin().key;
-			assert min == i : "Wrong minimum";
-			System.err.println("Min: " + min);
-			heap.deleteMin();
-		}
+		// for (int i = 1; i <= 10; i++) {
+		// // heap.printHeap();
+		// int min = heap.findMin().key;
+		// assert min == i : "Wrong minimum";
+		// System.err.println("Min: " + min);
+		// heap.deleteMin();
+		// }
 	}
 }
