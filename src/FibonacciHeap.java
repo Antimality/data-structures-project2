@@ -74,7 +74,6 @@ public class FibonacciHeap {
 		HeapNode[] buckets = new HeapNode[numNodes];
 		HeapNode current = rootList;
 		do {
-			HeapNode next = current.next;
 			int rank = current.rank;
 			HeapNode merged = current;
 			// Recursively merge trees until there are no more bucket conflicts
@@ -86,8 +85,11 @@ public class FibonacciHeap {
 			}
 			buckets[rank] = merged;
 
-			// TODO: What if both next and current get pulled under someone else?
-			current = next.isRoot() ? next : current.next;
+			// Trickle back up to rootlist and progress
+			while (!current.isRoot()) {
+				current = current.parent;
+			}
+			current = current.next;
 		} while (current != rootList);
 
 		// Update min pointer
