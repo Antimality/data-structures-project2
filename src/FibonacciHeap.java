@@ -116,6 +116,8 @@ public class FibonacciHeap {
 			child.prev = child;
 		} else {
 			addToLinkedList(child, parent.child);
+			if (child.rank > parent.child.rank)
+				parent.child = child;
 		}
 		child.parent = parent;
 
