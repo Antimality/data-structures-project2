@@ -77,7 +77,7 @@ public class FibonacciHeap {
 			int rank = current.rank;
 			HeapNode merged = current;
 			// Recursively merge trees until there are no more bucket conflicts
-			while (buckets[rank] != null) {
+			while (buckets[rank] != null && buckets[rank] != current) {
 				// Merge with bucket
 				merged = merge(merged, buckets[rank]);
 				// Empty previous bucket
@@ -85,11 +85,16 @@ public class FibonacciHeap {
 			}
 			buckets[rank] = merged;
 
+			// TODO: Is this a Time Complexity problem?
 			// Trickle back up to rootlist and progress
 			while (!current.isRoot()) {
 				current = current.parent;
 			}
 			current = current.next;
+			// BUG: If we trickle back up to the first node and then do .next we might skip
+			// past the breaking condition and then merge above would merge a tree with
+			// itself, which is why the second caluse was added. This is an ugly solution
+			// that should be rewritten, but it works.
 		} while (current != rootList);
 
 		// Update min pointer
@@ -125,6 +130,11 @@ public class FibonacciHeap {
 
 		parent.rank++;
 		numLinks++;
+
+		// If the nodes both have the min key, make sure min pointer remains uptop
+		if (min == child)
+			min = parent;
+
 		return parent;
 	}
 
