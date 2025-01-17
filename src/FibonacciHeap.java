@@ -85,7 +85,6 @@ public class FibonacciHeap {
 			}
 			buckets[rank] = merged;
 
-			// TODO: Is this a Time Complexity problem?
 			// Trickle back up to rootlist and progress
 			while (!current.isRoot()) {
 				current = current.parent;
