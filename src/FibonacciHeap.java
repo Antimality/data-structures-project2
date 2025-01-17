@@ -71,7 +71,7 @@ public class FibonacciHeap {
 	 * 
 	 */
 	private void consolidate() {
-		HeapNode[] buckets = new HeapNode[numNodes];
+		HeapNode[] buckets = new HeapNode[calculateMaxRank()];
 		HeapNode current = rootList;
 		do {
 			int rank = current.rank;
@@ -91,7 +91,7 @@ public class FibonacciHeap {
 				current = current.parent;
 			}
 			current = current.next;
-			// BUG: If we trickle back up to the first node and then do .next we might skip
+			// TODO: If we trickle back up to the first node and then do .next we might skip
 			// past the breaking condition and then merge above would merge a tree with
 			// itself, which is why the second caluse was added. This is an ugly solution
 			// that should be rewritten, but it works.
@@ -136,6 +136,15 @@ public class FibonacciHeap {
 			min = parent;
 
 		return parent;
+	}
+
+	/**
+	 * 
+	 * calculate the maximum possible rank based on the number of nodes in the heap
+	 * 
+	 */
+	private int calculateMaxRank() {
+		return (int) Math.ceil(Math.log(numNodes) / Math.log(2)) + 1;
 	}
 
 	/**
@@ -258,6 +267,14 @@ public class FibonacciHeap {
 	 */
 	public int totalCuts() {
 		return numCuts;
+	}
+
+	/**
+	 * 
+	 * Return whether or not the heap is empty
+	 */
+	public boolean isEmpty() {
+		return numNodes == 0;
 	}
 
 	/**
@@ -398,9 +415,10 @@ public class FibonacciHeap {
 		}
 	}
 
-	// TODO: REMOVE BEFORE SUBMISSION? (so we don't need to explain it)
+	// =======================================================================
+	// TODO: REMOVE EVERYTHING PAST THIS BEFORE SUBMISSION
 	public void printHeap() {
-		if (this.min == null) {
+		if (this.isEmpty()) {
 			System.out.println("The heap is empty.");
 			return;
 		}
@@ -440,51 +458,48 @@ public class FibonacciHeap {
 		}
 	}
 
-	// TODO: REMOVE BEFORE SUBMISSION
-	public static void main(String[] args) {
-		// FibonacciHeap heap = new FibonacciHeap();
-		// heap.insert(2, "two");
-		// heap.insert(3, "three");
-		// HeapNode x4 = heap.insert(4, "four");
-		// heap.insert(5, "five");
-		// heap.insert(1, "one");
-		// heap.deleteMin();
-		// heap.printHeap();
+	public int potential() {
+		int t = 0; // Number of trees (roots)
+		int m = 0; // Number of marked nodes
+		HeapNode current = min;
 
-		// heap.decreaseKey(x4, 3);
-		// heap.printHeap();
+		if (current != null) {
+			// Traverse the circular linked list of roots
+			do {
+				t++; // Each root is a tree
+				m += countMarkedNodes(current); // Count marked nodes in the tree
+				current = current.next;
+			} while (current != min);
+		}
 
-		// FibonacciHeap heap2 = new FibonacciHeap();
-		// heap2.insert(6, "six");
-		// heap2.insert(7, "seven");
-		// heap2.insert(8, "eight");
-		// heap2.insert(9, "nine");
-		// heap2.deleteMin();
-		// heap2.printHeap();
-
-		// heap.meld(heap2);
-		// heap.printHeap();
-
-		// heap.deleteMin();
-		// heap.printHeap();
-
-		// heap.insert(9, "Nine");
-		// heap.insert(2, "Two");
-		// heap.insert(3, "Three");
-		// heap.insert(1, "One");
-		// heap.insert(7, "Seven");
-		// heap.insert(5, "Five");
-		// heap.insert(6, "Six");
-		// heap.insert(8, "Eight");
-		// heap.insert(10, "Ten");
-		// heap.insert(4, "Four");
-
-		// for (int i = 1; i <= 10; i++) {
-		// // heap.printHeap();
-		// int min = heap.findMin().key;
-		// assert min == i : "Wrong minimum";
-		// System.err.println("Min: " + min);
-		// heap.deleteMin();
-		// }
+		return t + 2 * m; // Potential is t + 2 * m
 	}
+
+	// Helper method to count marked nodes in a tree
+	private int countMarkedNodes(HeapNode node) {
+		int count = 0;
+		while (node != null) {
+			if (node.mark)
+				count++; // Increment if the node is marked
+			node = node.child;
+		}
+		return count;
+	}
+
+	public int[] countersRep() {
+		int[] counters = new int[calculateMaxRank()]; // Array to store the number of trees of each rank
+		HeapNode current = min;
+
+		// Traverse the root list and count trees by rank
+		if (current != null) {
+			do {
+				int rank = current.rank;
+				counters[rank]++; // Increment the count of trees of this rank
+				current = current.next;
+			} while (current != min);
+		}
+
+		return counters;
+	}
+	// =======================================================================
 }
