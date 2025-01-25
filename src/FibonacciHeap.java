@@ -51,6 +51,7 @@ public class FibonacciHeap {
 		if (min == null) {
 			return;
 		}
+
 		detatchNode(min);
 
 		if (rootList == null) {
@@ -159,7 +160,7 @@ public class FibonacciHeap {
 			// The decrease is legal with the heap logic
 			return;
 		} else {
-			cascadeCut(x);
+			cascadeCut(x, false);
 		}
 	}
 
@@ -202,12 +203,8 @@ public class FibonacciHeap {
 			parent.mark = true;
 			return;
 		} else {
-			cascadeCut(parent);
+			cascadeCut(parent, false);
 		}
-	}
-
-	private void cascadeCut(HeapNode x) {
-		cascadeCut(x, false);
 	}
 
 	/**
@@ -237,6 +234,7 @@ public class FibonacciHeap {
 			cascadeCut(x, true);
 		}
 		if (x.child != null) {
+
 			// Add the children of x to the root list.
 			HeapNode current = x.child;
 			do {
