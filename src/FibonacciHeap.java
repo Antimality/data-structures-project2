@@ -3,6 +3,13 @@
  *
  * An implementation of Fibonacci heap over positive integers.
  *
+ * ID1: 212825715
+ * NAME1: Yonatan Nitzan
+ * USERNAME1: yonatann2
+ * ID2: 213336977
+ * NAME2: Itay Sonis
+ * USERNAME2: itaysonis
+ * 
  */
 public class FibonacciHeap {
 	public HeapNode min;
@@ -402,6 +409,11 @@ public class FibonacciHeap {
 			mark = false;
 		}
 
+		/**
+		 * 
+		 * Returns whether or not this node is a root.
+		 * 
+		 */
 		private boolean isRoot() {
 			return parent == null;
 		}
