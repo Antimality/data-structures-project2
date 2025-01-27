@@ -163,6 +163,11 @@ public class FibonacciHeap {
 	 */
 	public void decreaseKey(HeapNode x, int diff) {
 		x.key = x.key - diff;
+
+		// Update min pointer
+		if (x.key < min.key)
+			min = x;
+
 		if (x.isRoot() || x.parent.key <= x.key) {
 			// The decrease is legal with the heap logic
 			return;
